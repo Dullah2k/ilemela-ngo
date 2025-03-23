@@ -2,8 +2,33 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-  <h1>Dashboard</h1>
-  <p>Welcome to your dashboard.</p>
+<div class="breadcrumb">
+  <a href="{% url 'user_account:dashboard' %}" class="bread-item">
+    <i class="bi bi-house"></i>
+  </a>
 
-  <a href="{% url 'user_account:logout' %}">Log out</a>
+  <i class="bi bi-chevron-compact-right"></i>
+
+  <a href="{% url 'user_account:dashboard' %}" class="bread-item active-link">
+    <b>Dashboard</b>
+  </a>
+</div>
+
+<section class="dashboard">
+  <div class="section-title">
+    <div>
+      <h1>Dashboard</h1>
+      <p>Welcome back, Kivulini women Rights.</p>
+    </div>
+
+    <div>
+      <a href="#" class="btn btn-brand">  
+        <i class="bi bi-file-earmark-arrow-up-fill"></i>
+        Submit New Report
+      </a>
+    </div>
+  </div>
+
+
+</section>
 {% endblock %}

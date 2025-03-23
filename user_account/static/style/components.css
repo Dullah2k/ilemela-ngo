@@ -1,3 +1,4 @@
+@import url('root.css');
 .btn {
   display: inline-block;
   font-weight: 400;
@@ -19,18 +20,11 @@
 }
 
 .btn-brand {
-	background-color: var(--brand-color);
+	background-color: var(--bs-blue);
+  color: var(--white);
+  font-weight: 500;
 }
 
-.btn-brand2 {
-	background-color: var(--brand-color2);
-	color: var(--white);
-}
-
-.btn-brand2-outline {
-	color: var(--brand-color2);
-	border: 2px solid var(--brand-color2);
-}
 
 /* ========================== TABLE STYLE ========================== */
 .styled-table {

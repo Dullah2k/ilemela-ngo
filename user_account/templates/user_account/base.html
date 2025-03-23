@@ -5,9 +5,187 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="{% static 'style/style.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css">
+
   <title>{% block title %} {% endblock %}</title>
 </head>
+
+<style>
+
+  .breadcrumb {
+    background-color: var(--white);
+    padding: .6rem;
+  }
+
+  .breadcrumb a {
+    text-decoration: none;
+    color: var(--black);
+  }
+
+  .breadcrumb .active-link {
+    color: rgb(201, 201, 201);
+  }
+  .section-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: .6rem 0;
+  }
+
+  header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .3rem 1rem;
+    background-color: var(--white);
+    box-shadow: var(--shadow1);
+  }
+
+  header .profile {
+    height: 50px;
+    width: 50px;
+    overflow: hidden;
+  }
+
+  header .logout {
+    display: flex;
+    align-items: center;
+    gap: .3rem;
+    background-color: rgba(255, 0, 0, 0.15);
+    color: rgba(102, 0, 0, 0.541);
+    padding: .2rem 1rem;
+    border-radius: var(--radius);
+    margin: .6rem 0;
+    text-decoration: none;
+  }
+
+  header .logout i {
+    display: block;
+    font-size: 1.6rem;
+  }
+
+  aside {
+    position: fixed;
+    top: 0; left: 0;
+    background-color: var(--white);
+    width: 300px;
+    min-height: 100%;
+  }
+
+  aside .profile {
+    display: flex;
+    align-items: center;
+    margin: .6rem;
+    gap: .6rem;
+  }
+
+  aside .profile .prof-img {
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    object-fit: contain;
+  }
+
+  aside .sidenav-links {
+    margin: 1rem .2rem;
+  }
+
+  aside .sidenav-link {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    color: black;
+    padding: .6rem 0;
+  }
+
+  aside .sidenav-link:hover {
+    background-color: var(--gray);
+  }
+
+  aside .sidenav-link i {
+    font-size: 1.25rem;
+  }
+
+  aside .active-link {
+    font-weight: 500;
+    background-color: #ecefed79;
+    border-radius: .45rem;
+  }
+
+  aside .active-link i {
+    font-size: 1.35rem;
+  }
+
+  .main-content {
+    margin: 5rem .6rem 0 310px;
+    
+  }
+
+</style>
+
 <body>
-  {% block content %} {% endblock %}
+  <header>
+    <div class="logo"></div>
+    <a href="{% url 'user_account:logout' %}" class="logout">
+      <i class="bi bi-power"></i>
+      <p>Log out</p>
+    </a>
+  </header>
+
+  <main>
+    <aside>
+      <div class="sidenav">
+        <div class="profile">
+          <div class="prof-img">
+            <img src="{% static 'images/ILEMELA 1.png' %}" alt="profile-img">
+          </div>
+
+          <div>
+            <h5>Kivulini Women's Rights</h5>
+            <h5>NGO Portal</h5>
+          </div>
+        </div>
+      </div>
+      <hr>
+
+      <ul class="sidenav-links">
+        <li class="active-link">
+          <a href="#" class="sidenav-link">
+            <i class="bi bi-grid"></i>
+            <p>Dashboard</p>
+          </a>
+        </li>
+
+        <li class="">
+          <a href="#"  class="sidenav-link">
+            <i class="bi bi-file-earmark-arrow-up-fill"></i>
+            <p>Submit Report</p>
+          </a>
+        </li>
+
+        <li class="">
+          <a href="#" class="sidenav-link">
+            <i class="bi bi-file-earmark-bar-graph-fill"></i>
+            <p>My Reports</p>
+          </a>
+        </li>
+
+        <li class="">
+          <a href="#" class="sidenav-link">
+            <i class="bi bi-kanban"></i>
+            <p>My Projects</p>
+          </a>
+        </li>
+      </ul>
+    </aside>
+  
+    <section class="main-content">
+      {% block content %} {% endblock %}
+    </section>
+  </main>
+  
 </body>
 </html>
