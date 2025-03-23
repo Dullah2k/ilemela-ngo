@@ -1,12 +1,54 @@
-{% extends "user_account/base.html" %}
+{% extends "user_account/auth_base.html" %}
 {% block title %}Create an account{% endblock %}
 
 {% block content %}
-  <h1>Create an account</h1>
-  <p>Please, sign up using the following form:</p>
+
+<style>
+  .register .header {
+    text-align: center;
+    margin: .6rem 0;
+  }
+
+  .register .header h3 {
+    font-weight: 300;
+  }
+
+  .register form {
+    margin: .6rem 0 .6rem 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: .6rem;
+ }
+
+ .register form p {
+  margin: .2rem 0;
+ }
+
+ .register form label, input {
+  display: block;
+  width: 100%;
+  font-family: var(--primary-font);
+ }
+
+ .register form input {
+  height: 2.5rem;
+ }
+
+</style>
+
+<section class="register">
+  <div class="header">
+    <h1>Create an account</h1>
+    <h3>Please, sign up using the following form:</h3>
+  </div>
+
   <form method="post">
     {{ form.as_p }}
     {% csrf_token %}
-    <p><input type="submit" value="Create my account"></p>
+    <p><input type="submit" value="Create my account" style="margin-top: 1.25rem;"></p>
   </form>
+
+</section>
+
+
 {% endblock %}
