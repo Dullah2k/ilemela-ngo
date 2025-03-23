@@ -2,6 +2,53 @@
 {% block title %} Organization Details {% endblock %}
 
 {% block content %}
+
+<style>
+.organization-detail, .edit-form {
+  background-color: var(--white);
+  margin: .6rem 0;
+  padding: .6rem;
+}
+
+.organization-detail .top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.organization-detail hr {
+  margin: .6rem 0;
+}
+
+.organization-detail h1 {
+  text-transform: capitalize;
+}
+
+.organization-detail h3 {
+  margin-bottom: .15rem;
+}
+
+.organization-detail .organization-info {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .6rem;
+}
+
+.organization-detail .detail-item {
+  background-color: var(--gray);
+  margin: .6rem 0;
+  padding: .6rem;
+  border-radius: .35rem;
+}
+
+.organization-detail .detail-item dd {
+  background-color: var(--white);
+  padding: .3rem;
+  margin-top: .3rem;
+  font-weight: 600;
+}
+</style>
+
 <section class="organization-details">
   <div class="breadcrumb">
     <a href="{% url 'user_account:dashboard' %}" class="bread-item">
@@ -38,7 +85,6 @@
 
     <div class="organization-info">
       <div class="basic-info">
-          <h3>Basic Information</h3>
           <dl>
             <div class="detail-item">
               <dt>Registration Number:</dt>
