@@ -1,0 +1,135 @@
+{% extends 'user_account/base.html' %}
+{% block title %} Organization List {% endblock %}
+
+{% block content %}
+
+<style>
+  .header { 
+    margin: 1rem 0;
+    border: 2px solid var(--white);
+    border-radius: var(--radius);
+    padding: .6rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--shadow1);
+  }
+        
+  .filters {
+    display: flex;
+    gap: .6rem;
+    margin-bottom: .5rem;
+  }
+
+  .filters a {
+    text-decoration: none;
+  }
+  
+  .filter-btn {
+    padding: .3rem .6rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: white;
+    cursor: pointer;
+  }
+  
+  .filter-btn.active {
+    background: #007bff;
+    color: white;
+    border-color: #007bff;
+    font-weight: 500;
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+  }
+  
+  .table th, .table td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .table th {
+    background-color: #f8f9fa;
+  }
+  
+  .org-card {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 2rem 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .org-photo {
+    width: 200px;
+    height: auto;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+  }
+</style>
+
+<section class="organization-list">
+  <div class="breadcrumb">
+    <a href="{% url 'user_account:dashboard' %}" class="bread-item">
+      <i class="bi bi-house"></i>
+    </a>
+  
+    <i class="bi bi-chevron-compact-right"></i>
+  
+    <a href="{% url 'organization:organization_list' %}" class="bread-item active-link">
+      <b>Organization Directory</b>
+    </a>
+  </div>
+  
+  <div class="header">
+    <h1>Organization Directory</h1>
+
+    <div class="filters">
+      <a href="?filter=all" class="filter-btn {% if current_filter == 'all' %}active{% endif %}">
+        All
+      </a>
+  
+      <a href="?filter=verified" class="filter-btn {% if current_filter == 'verified' %}active{% endif %}">
+        Verified
+      </a>
+  
+      <a href="?filter=unverified" class="filter-btn {% if current_filter == 'unverified' %}active{% endif %}">
+        Unverified
+      </a>
+    </div>
+  </div>
+  
+  <table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th><a href="?sort=registered">Registration Date</a></th>
+            <th><a href="?sort=established">Established</a></th>
+            <th>Phone</th>
+            <th>Verified</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for org in organizations %}
+        <tr>
+            <td>
+                <a href="{% url 'organization:organization_detail' org.id %}">
+                    {{ org.user.username }}
+                </a>
+            </td>
+            <td>{{ org.registration_date|date:"M d, Y" }}</td>
+            <td>{{ org.date_established|date:"M d, Y" }}</td>
+            <td>{{ org.phone_number }}</td>
+            <td>{% if org.is_verified %}✅{% else %}❌{% endif %}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+  </table>  
+</section>
+
+{% endblock %}
+

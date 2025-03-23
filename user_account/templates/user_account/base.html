@@ -198,7 +198,7 @@
 
         {% if user.is_staff %}
         <li class="">
-          <a href="#"  class="sidenav-link">
+          <a href="{% url 'organization:organization_list' %}"  class="sidenav-link">
             <i class="bi bi-globe"></i>
             <p>Organizations List</p>
           </a>

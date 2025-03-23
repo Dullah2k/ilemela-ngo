@@ -1,0 +1,104 @@
+{% extends 'user_account/base.html' %}
+{% block title %} Organization Details {% endblock %}
+
+{% block content %}
+<section class="organization-details">
+  <div class="breadcrumb">
+    <a href="{% url 'user_account:dashboard' %}" class="bread-item">
+      <i class="bi bi-house"></i>
+    </a>
+
+    <i class="bi bi-chevron-compact-right"></i>
+
+    <a href="{% url 'organization:organization_list' %}" class="bread-item">
+      <b>Organization List</b>
+    </a>
+
+    <i class="bi bi-chevron-compact-right"></i>
+
+    <a href="admin-dashboard.html" class="bread-item active-link">
+      <b>{{ organization.user.first_name }} Details</b>
+    </a>
+  </div>
+
+  <div class="organization-detail">
+    <div class="top">
+      <h1>{{ organization.user.first_name }}</h1>
+
+      {% if user == organization.user or user.is_staff %}
+        <div class="edit-link">
+          <a href="#" class="btn btn-brand">
+            <i class="bi bi-pencil"></i> Edit Profile
+          </a>
+        </div>
+      {% endif %}
+    </div>
+
+    <hr>
+
+    <div class="organization-info">
+      <div class="basic-info">
+          <h3>Basic Information</h3>
+          <dl>
+            <div class="detail-item">
+              <dt>Registration Number:</dt>
+              <dd>{{ organization.registration_number }}</dd>
+            </div>
+            
+            <div class="detail-item">
+              <dt>Contact Email:</dt>
+              <dd>{{ organization.user.email }}</dd>
+            </div>
+            
+            <div class="detail-item">
+              <dt>Phone Number:</dt>
+              <dd>{{ organization.phone_number }}</dd>
+            </div>
+            
+            <div class="detail-item">
+              <dt>Website:</dt>
+              <dd>
+                  {% if organization.website %}
+                  <a href="{{ organization.website }}" target="_blank">{{ organization.website }}</a>
+                  {% else %}
+                  Not provided
+                  {% endif %}
+              </dd>
+            </div>
+          </dl>
+      </div>
+
+      <div class="compliance-info">
+          
+          <dl>
+            <div class="detail-item">
+              <dt>Registration Date:</dt>
+              <dd>{{ org.registration_date|default:"Not provided" }}</dd>
+            </div>
+              
+            <div class="detail-item">
+              <dt>Last Renewal Date:</dt>
+              <dd>{{ org.last_renewal_date|default:"Not provided" }}</dd>
+            </div>
+          </dl>
+      </div>
+
+      <div class="operations-info">
+            
+            <div class="detail-item">
+              <dt>Annual Budget (TZS):</dt>
+              <dd>
+                  {% if org.annual_budget %}
+                  {{ org.annual_budget|floatformat:"0" }}
+                  {% else %}
+                  Not disclosed
+                  {% endif %}
+              </dd>
+            </div>
+          </dl>
+      </div>
+    </div>
+  </div>
+
+</section>
+{% endblock %}
