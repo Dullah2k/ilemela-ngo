@@ -2,6 +2,30 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
+
+<style>
+  .reportings {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+
+  .reporting {
+    background-color: var(--white);
+    border-radius: .45rem;
+    padding: 1rem;
+    box-shadow: var(--shadow1);
+  }
+
+  .reporting h3 {
+    color: gray;
+    font-weight: 400;
+  }
+
+</style>
+
+
 <div class="breadcrumb">
   <a href="{% url 'user_account:dashboard' %}" class="bread-item">
     <i class="bi bi-house"></i>
@@ -14,6 +38,7 @@
   </a>
 </div>
 
+{% if user.is_authenticated %}
 <section class="dashboard">
   <div class="section-title">
     <div>
@@ -29,6 +54,153 @@
     </div>
   </div>
 
+  {% if user.is_staff %}
+  <div class="dashboard-cards">
+    <div class="dashboard-card">
+      <div class="info-icon">
+        <div class="info">
+          <h3>Organizations</h3>
+          <h1> 14 </h1>
+        </div>
+
+        <div class="icon">
+          <i class="bi bi-file-earmark-bar-graph-fill"></i>
+        </div>
+      </div>
+      <hr>
+      <h5>Total organizations registered</h5>
+    </div>
+    
+    <div class="dashboard-card">
+      <div class="info-icon">
+        <div class="info">
+          <h3>Projects</h3>
+          <h1> 14 </h1>
+        </div>
+
+        <div class="icon">
+          <i class="bi bi-file-earmark-bar-graph-fill"></i>
+        </div>
+      </div>
+      <hr>
+      <h5>Total projects on the works</h5>
+    </div>
+    
+    <div class="dashboard-card">
+      <div class="info-icon">
+        <div class="info">
+          <h3>Approved</h3>
+          <h1> 4 </h1>
+        </div>
+
+        <div class="icon">
+          <i class="bi bi-file-earmark-bar-graph-fill"></i>
+        </div>
+      </div>
+      <hr>
+      <h5> Reviewed and accepted reports</h5>
+    </div>
+    
+    <div class="dashboard-card">
+      <div class="info-icon">
+        <div class="info">
+          <h3>Rejected</h3>
+          <h1> 2 </h1>
+        </div>
+
+        <div class="icon">
+          <i class="bi bi-file-earmark-bar-graph-fill"></i>
+        </div>
+      </div>
+      <hr>
+      <h5>Reports needing correction</h5>
+    </div>
+    
+  </div>
+
+  {% else %}
+  <div class="dashboard-cards">
+    <div class="dashboard-card">
+      <div class="info-icon">
+        <div class="info">
+          <h3>Reports</h3>
+          <h1> 14 </h1>
+        </div>
+
+        <div class="icon">
+          <i class="bi bi-file-earmark-bar-graph-fill"></i>
+        </div>
+      </div>
+      <hr>
+      <h5>Total reports Submitted</h5>
+    </div>
+    
+    <div class="dashboard-card">
+      <div class="info-icon">
+        <div class="info">
+          <h3>Pending review</h3>
+          <h1> 14 </h1>
+        </div>
+
+        <div class="icon">
+          <i class="bi bi-file-earmark-bar-graph-fill"></i>
+        </div>
+      </div>
+      <hr>
+      <h5>Reports awaiting municipal approval</h5>
+    </div>
+    
+    <div class="dashboard-card">
+      <div class="info-icon">
+        <div class="info">
+          <h3>Approved</h3>
+          <h1> 4 </h1>
+        </div>
+
+        <div class="icon">
+          <i class="bi bi-file-earmark-bar-graph-fill"></i>
+        </div>
+      </div>
+      <hr>
+      <h5> Reviewed and accepted reports</h5>
+    </div>
+    
+    <div class="dashboard-card">
+      <div class="info-icon">
+        <div class="info">
+          <h3>Rejected</h3>
+          <h1> 2 </h1>
+        </div>
+
+        <div class="icon">
+          <i class="bi bi-file-earmark-bar-graph-fill"></i>
+        </div>
+      </div>
+      <hr>
+      <h5>Reports needing correction</h5>
+    </div>
+    
+  </div>
+  {% endif %}
+  <div class="reportings">
+    <div class="reporting recent-reports">
+      <div class="title">
+        <h2>Recent reports</h2>
+        <h3>Your most recent submitted reports</h3>
+      </div>
+
+      <a href="#" class="btn">View all Reports</a>
+    </div>
+
+    <div class="reporting report-deadline">
+      <div class="title">
+        <h2>Upcoming deadlines</h2>
+        <h3>Your most recent submitted reports</h3>
+      </div>
+
+    </div>
+  </div>
 
 </section>
+{% endif %}
 {% endblock %}

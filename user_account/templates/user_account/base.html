@@ -25,11 +25,48 @@
   .breadcrumb .active-link {
     color: rgb(201, 201, 201);
   }
+
   .section-title {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin: .6rem 0;
+  }
+
+  .dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+
+  .dashboard-card {
+    background-color: var(--white);
+    box-shadow: var(--shadow1);
+    padding: .6rem;
+    border-radius: .55rem;
+  }
+
+  .dashboard-card h5 {
+    color: gray;
+  }
+
+  .dashboard-card h3 {
+    letter-spacing: .05rem;
+    font-weight: 500;
+  }
+
+  .dashboard-card hr {
+    margin: .25rem 0;
+  }
+
+  .dashboard-card .info-icon {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .dashboard-card .info-icon i {
+    font-size: 1.85rem;
   }
 
   header {
@@ -121,12 +158,12 @@
 
   .main-content {
     margin: 5rem .6rem 0 310px;
-    
   }
 
 </style>
 
 <body>
+  {% if user.is_authenticated %}
   <header>
     <div class="logo"></div>
     <a href="{% url 'user_account:logout' %}" class="logout">
@@ -159,6 +196,30 @@
           </a>
         </li>
 
+        {% if user.is_staff %}
+        <li class="">
+          <a href="#"  class="sidenav-link">
+            <i class="bi bi-globe"></i>
+            <p>Organizations List</p>
+          </a>
+        </li>
+        {% else %}
+        <li class="">
+          <a href="#"  class="sidenav-link">
+            <i class="bi bi-person-lines-fill"></i>
+            <p>Organization Profile</p>
+          </a>
+        </li>
+        {% endif %}
+
+        {% if user.is_staff %}
+        <li class="">
+          <a href="#"  class="sidenav-link">
+            <i class="bi bi-file-earmark-arrow-up-fill"></i>
+            <p>Submitted Reports</p>
+          </a>
+        </li>
+        {% else %}
         <li class="">
           <a href="#"  class="sidenav-link">
             <i class="bi bi-file-earmark-arrow-up-fill"></i>
@@ -172,13 +233,23 @@
             <p>My Reports</p>
           </a>
         </li>
+        {% endif %}
 
+        {% if user.is_staff %}
+        <li class="">
+          <a href="#" class="sidenav-link">
+            <i class="bi bi-kanban"></i>
+            <p>Projects</p>
+          </a>
+        </li>
+        {% else %}
         <li class="">
           <a href="#" class="sidenav-link">
             <i class="bi bi-kanban"></i>
             <p>My Projects</p>
           </a>
         </li>
+        {% endif %}
       </ul>
     </aside>
   
@@ -186,6 +257,6 @@
       {% block content %} {% endblock %}
     </section>
   </main>
-  
+  {% endif %}
 </body>
 </html>
