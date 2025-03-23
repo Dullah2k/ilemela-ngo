@@ -1,25 +1,58 @@
-{% extends 'user_account/base.html' %}
+{% extends 'user_account/auth_base.html' %}
 {% block title %} Login {% endblock %}
 
 {% block content %}
-  <section class="login">
-    <h1>Log-in</h1>
-    {% if form.errors %}
-      <p>
-        Your username and password didn't match.
-        Please try again.
-      </p>
-    {% else %}
-      <p>Please, use the following form to log-in:</p>
-    {% endif %}
 
-    <div class="login-form">
-      <form action="{% url 'user_account:login' %}" method="post">
-        {{ form.as_p }}
-        {% csrf_token %}
-        <input type="hidden" name="next" value="{{ next }}" />
-        <p><input type="submit" value="Log-in"></p>
-      </form>
-    </div>
-  </section>
+<style>
+ .login .header {
+  text-align: center;
+ }
+
+ .login .header h3 {
+  font-weight: 300;
+ }
+
+ .login form {
+  margin: .6rem 0 .6rem 0;
+ }
+
+ .login form p {
+  margin: .6rem 0;
+ }
+
+ .login form label, input {
+  display: block;
+  width: 100%;
+  font-family: var(--primary-font);
+ }
+
+ .login form input {
+  height: 2.5rem;
+ }
+</style>
+
+<section class="login">
+  <div class="header">
+    <h1>WELCOME BACK</h1>
+    <h3>Login to gain Access to your Dashboard and Activities</h3>
+  </div>
+
+  {% if form.errors %}
+    <p>
+      Your username and password didn't match.
+      Please try again.
+    </p>
+  {% endif %}
+
+  <div class="login-form">
+    <form action="{% url 'user_account:login' %}" method="post">
+      {{ form.as_p }}
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ next }}" />
+      <p><input type="submit" value="Log-in" class="btn btn-brand"></p>
+    </form>
+
+    <a href="#">Forgot your Password?</a>
+  </div>
+</section>
 {% endblock %}

@@ -13,7 +13,7 @@ ul li {
 }
 
 :root {
-	--primary-font: "Inter", sans-serif;
+	--primary-font: 'Segoe UI', sans-serif;
 	--gray: #ecefed;
 	--white: white;
 	--black: black;
@@ -28,6 +28,7 @@ ul li {
   --bs-teal: #20c997;
   --bs-cyan: #0dcaf0;
 	--radius: .625rem;
+  --shadow1: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 body {
