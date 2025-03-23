@@ -134,8 +134,8 @@
             </div>
     
             <div class="nav">
-              <a href="{% url 'user_account:login' %}" class="active-link">Login</a>
-              <a href="{% url 'user_account:register' %}">Register</a>
+              <a href="{% url 'user_account:login' %}" {% if section != 'register' %}class="active-link"{% endif %}>Login</a>
+              <a href="{% url 'user_account:register' %}" {% if section == 'register' %}class="active-link"{% endif %}>Register</a>
             </div>
           </div>
           {% block content %} {% endblock %}

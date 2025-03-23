@@ -41,6 +41,7 @@ def register(request):
 
   return render(request, 'user_account/register.html', {
     'form': form,
+    'section': 'register',
   })
 
 @login_required
