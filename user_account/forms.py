@@ -28,6 +28,20 @@ class OrganizationEditForm(forms.ModelForm):
     fields = ['first_name', 'last_name', 'email']
 
 class OrganizationProfileEditForm(forms.ModelForm):
+  def __init__(self, *args, **kwargs):
+    use_admin_fields = kwargs.pop('use_admin_fields', False)
+    super().__init__(*args, **kwargs)
+    if not use_admin_fields:
+        self.fields.pop('is_verified', None)
+
   class Meta:
     model = OrganizationProfile
-    fields = ['registration_number', 'registration_certificate', 'photo', 'phone_number', 'is_verified', 'website', 'annual_budget', 'registration_date', 'date_established']
+    fields = ['registration_number', 'registration_certificate', 'photo', 
+    'phone_number', 'is_verified', 'website', 'annual_budget', 
+    'registration_date', 'date_established']
+    
+    widgets = {
+      'registration_date': forms.DateInput(attrs={'type': 'date'}),
+      'date_established': forms.DateInput(attrs={'type': 'date'}),
+      'annual_budget': forms.NumberInput(attrs={'step': '0.01'}),
+    }

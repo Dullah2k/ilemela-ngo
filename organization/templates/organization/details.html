@@ -74,7 +74,7 @@
 
       {% if user == organization.user or user.is_staff %}
         <div class="edit-link">
-          <a href="#" class="btn btn-brand">
+          <a href="{% url 'organization:organization_edit' organization.id %}" class="btn btn-brand">
             <i class="bi bi-pencil"></i> Edit Profile
           </a>
         </div>
@@ -119,12 +119,12 @@
           <dl>
             <div class="detail-item">
               <dt>Registration Date:</dt>
-              <dd>{{ org.registration_date|default:"Not provided" }}</dd>
+              <dd>{{ organization.registration_date|default:"Not provided" }}</dd>
             </div>
               
             <div class="detail-item">
               <dt>Last Renewal Date:</dt>
-              <dd>{{ org.last_renewal_date|default:"Not provided" }}</dd>
+              <dd>{{ organization.last_renewal_date|default:"Not provided" }}</dd>
             </div>
           </dl>
       </div>
@@ -134,8 +134,8 @@
             <div class="detail-item">
               <dt>Annual Budget (TZS):</dt>
               <dd>
-                  {% if org.annual_budget %}
-                  {{ org.annual_budget|floatformat:"0" }}
+                  {% if organization.annual_budget %}
+                  {{ organization.annual_budget|floatformat:"0" }}
                   {% else %}
                   Not disclosed
                   {% endif %}
