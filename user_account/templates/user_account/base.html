@@ -189,22 +189,22 @@
       <hr>
 
       <ul class="sidenav-links">
-        <li class="active-link">
-          <a href="#" class="sidenav-link">
+        <li {% if section == 'dashboard' %} class="active-link" {% endif %}>
+          <a href="{% url 'user_account:dashboard' %}" class="sidenav-link">
             <i class="bi bi-grid"></i>
             <p>Dashboard</p>
           </a>
         </li>
 
         {% if user.is_staff %}
-        <li class="">
+        <li {% if section == 'organization' %} class="active-link" {% endif %}>
           <a href="{% url 'organization:organization_list' %}"  class="sidenav-link">
             <i class="bi bi-globe"></i>
             <p>Organizations List</p>
           </a>
         </li>
         {% else %}
-        <li class="">
+        <li {% if section == 'organization' %} class="active-link" {% endif %}>
           <a href="#"  class="sidenav-link">
             <i class="bi bi-person-lines-fill"></i>
             <p>Organization Profile</p>
@@ -213,21 +213,21 @@
         {% endif %}
 
         {% if user.is_staff %}
-        <li class="">
+        <li {% if section == 'report' %} class="active-link" {% endif %}>
           <a href="#"  class="sidenav-link">
             <i class="bi bi-file-earmark-arrow-up-fill"></i>
             <p>Submitted Reports</p>
           </a>
         </li>
         {% else %}
-        <li class="">
+        <li {% if section == 'report' %} class="active-link" {% endif %}>
           <a href="#"  class="sidenav-link">
             <i class="bi bi-file-earmark-arrow-up-fill"></i>
             <p>Submit Report</p>
           </a>
         </li>
 
-        <li class="">
+        <li {% if section == 'report' %} class="active-link" {% endif %}>
           <a href="#" class="sidenav-link">
             <i class="bi bi-file-earmark-bar-graph-fill"></i>
             <p>My Reports</p>
@@ -236,14 +236,14 @@
         {% endif %}
 
         {% if user.is_staff %}
-        <li class="">
+        <li {% if section == 'project' %} class="active-link" {% endif %}>
           <a href="#" class="sidenav-link">
             <i class="bi bi-kanban"></i>
             <p>Projects</p>
           </a>
         </li>
         {% else %}
-        <li class="">
+        <li {% if section == 'project' %} class="active-link" {% endif %}>
           <a href="#" class="sidenav-link">
             <i class="bi bi-kanban"></i>
             <p>My Projects</p>
