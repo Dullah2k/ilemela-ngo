@@ -205,7 +205,7 @@
         </li>
         {% else %}
         <li {% if section == 'organization' %} class="active-link" {% endif %}>
-          <a href="#"  class="sidenav-link">
+          <a href="{% url 'organization:organization_detail' id=request.user.organizationprofile.id %}"  class="sidenav-link">
             <i class="bi bi-person-lines-fill"></i>
             <p>Organization Profile</p>
           </a>
