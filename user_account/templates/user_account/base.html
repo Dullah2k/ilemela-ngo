@@ -237,14 +237,14 @@
 
         {% if user.is_staff %}
         <li {% if section == 'project' %} class="active-link" {% endif %}>
-          <a href="#" class="sidenav-link">
+          <a href="{% url 'project:project_list' %}" class="sidenav-link">
             <i class="bi bi-kanban"></i>
             <p>Projects</p>
           </a>
         </li>
         {% else %}
         <li {% if section == 'project' %} class="active-link" {% endif %}>
-          <a href="#" class="sidenav-link">
+          <a href="{% url 'project:project_list' %}" class="sidenav-link">
             <i class="bi bi-kanban"></i>
             <p>My Projects</p>
           </a>

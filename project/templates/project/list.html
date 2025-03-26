@@ -16,20 +16,22 @@
   <form method="get" class="mb-4">
     {% if is_admin %}
       <div class="row">
-        <div class="col-md-3">{{ filter.form.organization|as_crispy_field }}</div>
-        <div class="col-md-3">{{ filter.form.ward|as_crispy_field }}</div>
-        <div class="col-md-3">{{ filter.form.status|as_crispy_field }}</div>
-        <div class="col-md-3">{{ filter.form.funding_type|as_crispy_field }}</div>
+        <div class="col-md-3">{{ filter.form.organization }}</div>
+        <div class="col-md-3">{{ filter.form.ward }}</div>
+        <div class="col-md-3">{{ filter.form.status }}</div>
+        <div class="col-md-3">{{ filter.form.funding_type }}</div>
       </div>
     {% else %}
       <div class="row">
-        <div class="col-md-4">{{ filter.form.ward|as_crispy_field }}</div>
-        <div class="col-md-4">{{ filter.form.status|as_crispy_field }}</div>
-        <div class="col-md-4">{{ filter.form.funding_type|as_crispy_field }}</div>
+        <div class="col-md-4">{{ filter.form.ward }}</div>
+        <div class="col-md-4">{{ filter.form.status }}</div>
+        <div class="col-md-4">{{ filter.form.funding_type }}</div>
       </div>
     {% endif %}
     <button type="submit" class="btn btn-secondary">{% trans "Filter" %}</button>
   </form>
+
+	<a href="{% url 'project:project_create' %}">Create Project</a>
 
   <!-- Project Table -->
   <table class="table">

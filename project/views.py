@@ -42,7 +42,7 @@ def project_list(request):
 		user=request.user  # Pass user to filter to handle organization field
 	)
 
-	return render(request, 'project/project_list.html', {
+	return render(request, 'project/list.html', {
 		'filter': project_filter,
 		'is_admin': request.user.is_staff
 	})
