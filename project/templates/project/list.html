@@ -1,0 +1,64 @@
+{% extends "user_account/base.html" %}
+{% block title %} Project List {% endblock %}
+{% load i18n %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>
+    {% if is_admin %}
+      {% trans "All Projects" %}
+    {% else %}
+      {% trans "Your Projects" %}
+    {% endif %}
+  </h2>
+  
+  <!-- Filter Form -->
+  <form method="get" class="mb-4">
+    {% if is_admin %}
+      <div class="row">
+        <div class="col-md-3">{{ filter.form.organization|as_crispy_field }}</div>
+        <div class="col-md-3">{{ filter.form.ward|as_crispy_field }}</div>
+        <div class="col-md-3">{{ filter.form.status|as_crispy_field }}</div>
+        <div class="col-md-3">{{ filter.form.funding_type|as_crispy_field }}</div>
+      </div>
+    {% else %}
+      <div class="row">
+        <div class="col-md-4">{{ filter.form.ward|as_crispy_field }}</div>
+        <div class="col-md-4">{{ filter.form.status|as_crispy_field }}</div>
+        <div class="col-md-4">{{ filter.form.funding_type|as_crispy_field }}</div>
+      </div>
+    {% endif %}
+    <button type="submit" class="btn btn-secondary">{% trans "Filter" %}</button>
+  </form>
+
+  <!-- Project Table -->
+  <table class="table">
+    <thead>
+      <tr>
+        <th>{% trans "Name" %}</th>
+        {% if is_admin %}
+          <th>{% trans "Organization" %}</th>
+        {% endif %}
+        <th>{% trans "Status" %}</th>
+        <th>{% trans "Ward" %}</th>
+        <th>{% trans "Budget (TZS)" %}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for project in filter.qs %}
+        <tr>
+          <td><a href="{% url 'project:project_details' pk=project.pk %}">{{ project.name }}</a></td>
+          {% if is_admin %}
+            <td>{{ project.organization.get_full_name }}</td>
+          {% endif %}
+          <td>{{ project.get_status_display }}</td>
+          <td>{{ project.get_ward_display }}</td>
+          <td>{{ project.budget|default:"-" }}</td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="5">{% trans "No projects found." %}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
