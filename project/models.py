@@ -46,9 +46,9 @@ class Project(models.Model):
     null=True
   )
 
-  men = models.IntegerField(max_length=5)
-  women = models.IntegerField(max_length=5)
-  youth = models.IntegerField(max_length=5)
+  men = models.IntegerField()
+  women = models.IntegerField()
+  youth = models.IntegerField()
 
   # Timestamps
   created_at = models.DateTimeField(auto_now_add=True)
