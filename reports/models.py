@@ -53,12 +53,15 @@ class Report(models.Model):
     ordering = ['-year', '-quarter']
 
   def clean(self):
-    # Validate amount doesn't exceed project budget
+    # Add check for project existence
+    if not self.project_id:
+        raise ValidationError(_("Report must be associated with a project"))
+        
     if self.amount_used > self.project.budget:
-      raise ValidationError(
-        _("Amount used exceeds project budget of %(budget)s TZS"),
-        params={'budget': self.project.budget}
-      )
+        raise ValidationError(
+            _("Amount used exceeds project budget of %(budget)s TZS"),
+            params={'budget': self.project.budget}
+        )
 
 class ReportPhoto(models.Model):
   report = models.ForeignKey(

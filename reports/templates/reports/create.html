@@ -1,0 +1,65 @@
+{% extends "user_account/base.html" %}
+{% load i18n static %}
+
+{% block content %}
+<style>
+    .report-form {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+    }
+    .form-section {
+        margin-bottom: 2rem;
+    }
+    .photo-upload {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    .photo-preview {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border: 2px dashed #ccc;
+    }
+</style>
+
+<div class="report-form">
+    <h2>{% trans "Create Quarterly Report for" %} {{ project.name }}</h2>
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="form-section">
+            <h3>{% trans "Report Details" %}</h3>
+            {{ form.as_p }}
+        </div>
+
+        <div class="form-section">
+            <h3>{% trans "Project Photos (Minimum 5)" %}</h3>
+            <div class="photo-upload">
+                {{ formset.management_form }}
+                {% for form in formset %}
+                    <div class="photo-upload-item">
+                        {{ form.photo }}
+                        {{ form.caption }}
+                        {% if form.instance.photo %}
+                            <img src="{{ form.instance.photo.url }}" class="photo-preview">
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <button type="submit" class="btn-primary">
+            {% if request.user.is_staff %}
+                {% trans "Submit Report" %}
+            {% else %}
+                {% trans "Save Draft" %}
+            {% endif %}
+        </button>
+    </form>
+</div>
+{% endblock %}

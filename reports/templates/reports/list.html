@@ -1,0 +1,180 @@
+{% extends "user_account/base.html" %}
+{% load i18n %}
+
+
+{% block content %}
+<style>
+    .report-filter {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+    }
+    .filter-form {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 15px;
+        align-items: end;
+    }
+    .filter-group {
+        margin-bottom: 0;
+    }
+    .filter-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 600;
+    }
+    .filter-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    .filter-table th,
+    .filter-table td {
+        padding: 12px;
+        border: 1px solid #dee2e6;
+        text-align: left;
+    }
+    .filter-table th {
+        background-color: #007bff;
+        color: white;
+    }
+    .status-draft { color: #6c757d; }
+    .status-subm { color: #ffc107; }
+    .status-appr { color: #28a745; }
+    .status-rej { color: #dc3545; }
+    .pagination {
+        margin-top: 20px;
+        display: flex;
+        gap: 10px;
+    }
+    @media (max-width: 768px) {
+        .filter-form {
+            grid-template-columns: 1fr;
+        }
+        .filter-table {
+            display: block;
+            overflow-x: auto;
+        }
+    }
+</style>
+
+<div class="container">
+    <h2>{% trans "Project Reports" %}</h2>
+    
+    <div class="report-filter">
+        <form method="get" class="filter-form">
+            {% if is_admin %}
+            <div class="filter-group">
+                <label>{% trans "Organization" %}</label>
+                {{ filter.form.project__organization }}
+            </div>
+            {% endif %}
+            
+            <div class="filter-group">
+                <label>{% trans "Project Status" %}</label>
+                {{ filter.form.project__status }}
+            </div>
+            
+            <div class="filter-group">
+                <label>{% trans "Report Year" %}</label>
+                {{ filter.form.year }}
+            </div>
+            
+            <div class="filter-group">
+                <label>{% trans "Quarter" %}</label>
+                {{ filter.form.quarter }}
+            </div>
+            
+            <div class="filter-group">
+                <label>{% trans "Ward" %}</label>
+                {{ filter.form.project__ward }}
+            </div>
+            
+            <div class="filter-group">
+                <label>{% trans "Submission Date Range" %}</label>
+                {{ filter.form.submission_date }}
+            </div>
+            
+            <div class="filter-group">
+                <label>{% trans "Funding Type" %}</label>
+                {{ filter.form.project__funding_type }}
+            </div>
+            
+            {% if is_admin %}
+            <div class="filter-group">
+                <label>{% trans "Report Status" %}</label>
+                {{ filter.form.status }}
+            </div>
+            {% endif %}
+            
+            <div class="filter-group">
+                <button type="submit" class="btn-primary">
+                    {% trans "Filter" %}
+                </button>
+                <a href="?" class="btn-secondary">{% trans "Clear" %}</a>
+            </div>
+        </form>
+    </div>
+
+    <table class="filter-table">
+        <thead>
+            <tr>
+                {% if is_admin %}<th>{% trans "Organization" %}</th>{% endif %}
+                <th>{% trans "Report Title" %}</th>
+                <th>{% trans "Project" %}</th>
+                <th>{% trans "Quarter/Year" %}</th>
+                <th>{% trans "Status" %}</th>
+                <th>{% trans "Submission Date" %}</th>
+                <th>{% trans "Amount Used" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for report in page_obj %}
+            <tr>
+                {% if is_admin %}
+                <td>{{ report.project.organization }}</td>
+                {% endif %}
+                <td>
+                    <a href="{% url 'project:report_detail' pk=report.pk %}">
+                        {{ report.title }}
+                    </a>
+                </td>
+                <td>{{ report.project.name }}</td>
+                <td>Q{{ report.quarter }} {{ report.year }}</td>
+                <td class="status-{{ report.status|lower }}">
+                    {{ report.get_status_display }}
+                </td>
+                <td>{{ report.submission_date|date:"M d, Y" }}</td>
+                <td>{{ report.amount_used }} TZS</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7">{% trans "No reports found" %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if page_obj.paginator.num_pages > 1 %}
+    <div class="pagination">
+      {% if page_obj.has_previous %}
+          <a href="?page={{ page_obj.previous_page_number }}{% for key,value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">
+              {% trans "Previous" %}
+          </a>
+      {% endif %}
+      
+      <span>
+          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+      </span>
+      
+      {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}{% for key,value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">
+              {% trans "Next" %}
+          </a>
+      {% endif %}
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

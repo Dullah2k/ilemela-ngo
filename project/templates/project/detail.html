@@ -96,13 +96,17 @@
 
 <div class="project-container">
 	<div class="project-header">
-		<h1 class="project-title">{{ project.name }}</h1>
-		{% if request.user == project.organization or request.user.is_staff %}
-			<a href="{% url 'project:project_edit' pk=project.pk %}" class="edit-button">
-				{% trans "Edit Project" %}
-			</a>
-		{% endif %}
-	</div>
+    <h1 class="project-title">{{ project.name }}</h1>
+    {% if request.user == project.organization or request.user.is_staff %}
+        <a href="{% url 'project:project_edit' pk=project.pk %}" class="edit-button">
+            {% trans "Edit Project" %}
+        </a>
+        <!-- Add this new button for report creation -->
+        <a href="{% url 'reports:report_create' project_id=project.pk %}" class="create-report-button">
+            {% trans "Create Quarterly Report" %}
+        </a>
+    {% endif %}
+  </div>
 
 	<div class="project-section">
 		<h2 class="section-title">{% trans "Project Overview" %}</h2>
