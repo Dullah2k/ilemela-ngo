@@ -1,0 +1,191 @@
+{% extends "user_account/base.html" %}
+{% block title %} Project Details {% endblock %}
+{% load i18n %}
+
+{% block content %}
+<style>
+	.project-container {
+		max-width: 800px;
+		margin: 2rem auto;
+		padding: 2rem;
+		background: #f8f9fa;
+		border-radius: 8px;
+		box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+	}
+
+	.project-header {
+		border-bottom: 2px solid #007bff;
+		padding-bottom: 1rem;
+		margin-bottom: 2rem;
+	}
+
+	.project-title {
+		color: #2c3e50;
+		margin: 0;
+		font-size: 2rem;
+	}
+
+	.project-section {
+		margin-bottom: 2rem;
+	}
+
+	.section-title {
+		color: #007bff;
+		margin: 0 0 1rem 0;
+		font-size: 1.25rem;
+	}
+
+	.detail-row {
+		display: flex;
+		margin-bottom: 0.75rem;
+		padding: 0.5rem;
+		background: white;
+		border-radius: 4px;
+	}
+
+	.detail-label {
+		flex: 0 0 200px;
+		font-weight: 600;
+		color: #495057;
+	}
+
+	.detail-value {
+		flex: 1;
+		color: #6c757d;
+	}
+
+	.edit-button {
+		display: inline-block;
+		padding: 0.5rem 1rem;
+		background: #007bff;
+		color: white;
+		text-decoration: none;
+		border-radius: 4px;
+		transition: background 0.3s ease;
+	}
+
+	.edit-button:hover {
+		background: #0056b3;
+	}
+
+	.beneficiary-stats {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 1rem;
+		margin-top: 1rem;
+	}
+
+	.stat-box {
+		background: white;
+		padding: 1rem;
+		border-radius: 4px;
+		text-align: center;
+	}
+
+	.stat-value {
+		font-size: 1.5rem;
+		font-weight: bold;
+		color: #007bff;
+	}
+
+	.stat-label {
+		color: #6c757d;
+		font-size: 0.9rem;
+	}
+</style>
+
+<div class="project-container">
+	<div class="project-header">
+		<h1 class="project-title">{{ project.name }}</h1>
+		{% if request.user == project.organization or request.user.is_staff %}
+			<a href="{% url 'project:project_edit' pk=project.pk %}" class="edit-button">
+				{% trans "Edit Project" %}
+			</a>
+		{% endif %}
+	</div>
+
+	<div class="project-section">
+		<h2 class="section-title">{% trans "Project Overview" %}</h2>
+		<div class="detail-row">
+			<div class="detail-label">{% trans "Organization" %}</div>
+			<div class="detail-value">{{ project.organization }}</div>
+		</div>
+		<div class="detail-row">
+			<div class="detail-label">{% trans "Description" %}</div>
+			<div class="detail-value">{{ project.description }}</div>
+		</div>
+		<div class="detail-row">
+			<div class="detail-label">{% trans "Status" %}</div>
+			<div class="detail-value">{{ project.get_status_display }}</div>
+		</div>
+		<div class="detail-row">
+			<div class="detail-label">{% trans "Funding Type" %}</div>
+			<div class="detail-value">{{ project.get_funding_type_display }}</div>
+		</div>
+		<div class="detail-row">
+			<div class="detail-label">{% trans "Budget (TZS)" %}</div>
+			<div class="detail-value">{{ project.budget|default:"-" }}</div>
+		</div>
+	</div>
+
+	<div class="project-section">
+		<h2 class="section-title">{% trans "Location Information" %}</h2>
+		<div class="detail-row">
+			<div class="detail-label">{% trans "District" %}</div>
+			<div class="detail-value">{{ project.district }}</div>
+		</div>
+		<div class="detail-row">
+			<div class="detail-label">{% trans "Ward" %}</div>
+			<div class="detail-value">{{ project.get_ward_display }}</div>
+		</div>
+		<div class="detail-row">
+			<div class="detail-label">{% trans "Street" %}</div>
+			<div class="detail-value">{{ project.street }}</div>
+		</div>
+	</div>
+
+	<div class="project-section">
+		<h2 class="section-title">{% trans "Beneficiaries" %}</h2>
+		<div class="beneficiary-stats">
+			<div class="stat-box">
+				<div class="stat-value">{{ project.men }}</div>
+				<div class="stat-label">{% trans "Men" %}</div>
+			</div>
+			<div class="stat-box">
+				<div class="stat-value">{{ project.women }}</div>
+				<div class="stat-label">{% trans "Women" %}</div>
+			</div>
+			<div class="stat-box">
+				<div class="stat-value">{{ project.youth }}</div>
+				<div class="stat-label">{% trans "Youth" %}</div>
+			</div>
+		</div>
+		<div class="detail-row">
+			<div class="detail-label">{% trans "Total Beneficiaries" %}</div>
+			<div class="detail-value">{{ project.total_beneficiaries }}</div>
+		</div>
+	</div>
+
+	<div class="project-section">
+		<h2 class="section-title">{% trans "Timeline" %}</h2>
+		<div class="detail-row">
+			<div class="detail-label">{% trans "Start Date" %}</div>
+			<div class="detail-value">{{ project.start_date|date:"M d, Y" }}</div>
+		</div>
+		<div class="detail-row">
+			<div class="detail-label">{% trans "End Date" %}</div>
+			<div class="detail-value">
+				{% if project.end_date %}
+					{{ project.end_date|date:"M d, Y" }}
+				{% else %}
+					{% trans "Ongoing" %}
+				{% endif %}
+			</div>
+		</div>
+		<div class="detail-row">
+			<div class="detail-label">{% trans "Last Updated" %}</div>
+			<div class="detail-value">{{ project.updated_at|date:"M d, Y H:i" }}</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

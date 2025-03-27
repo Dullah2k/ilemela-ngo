@@ -181,8 +181,12 @@
           </div>
 
           <div>
-            <h5>Kivulini Women's Rights</h5>
+            <h3>{{ request.user.username }}</h3>
+            {% if user.is_staff %}
+            <h5>Admin(Municipal) Portal</h5>
+            {% else %}
             <h5>NGO Portal</h5>
+            {% endif %}
           </div>
         </div>
       </div>

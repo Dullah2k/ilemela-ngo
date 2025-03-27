@@ -1,6 +1,6 @@
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.admin.views.decorators import staff_member_required
 from django_filters.views import FilterView
 from .filters import ProjectFilter
@@ -49,3 +49,32 @@ def project_list(request):
 		'filter': project_filter,
 		'is_admin': request.user.is_staff
 	})
+
+@login_required
+def project_details(request, pk):
+	project = get_object_or_404(Project, pk=pk)
+	
+	# Allow only project owners or admins
+	if not (request.user.is_staff or project.organization == request.user):
+		return redirect('permission_denied')
+	
+	return render(request, 'project/detail.html', {'project': project})
+
+@login_required
+def project_edit(request, pk):
+	project = get_object_or_404(Project, pk=pk)
+	
+	# Allow only project owners or admins to edit
+	if not (request.user.is_staff or project.organization == request.user):
+		return redirect('permission_denied')
+	
+	if request.method == 'POST':
+		form = ProjectForm(request.POST, instance=project)
+		if form.is_valid():
+			form.save()
+			return redirect('project:project_details', pk=project.pk)
+	else:
+		form = ProjectForm(instance=project)
+	
+	return render(request, 'project/edit.html', {'form': form, 'title': _('Edit Project')})
+

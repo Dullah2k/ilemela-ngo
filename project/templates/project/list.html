@@ -49,7 +49,7 @@
     <tbody>
       {% for project in filter.qs %}
         <tr>
-          <td><a href="#">{{ project.name }}</a></td>
+          <td><a href="{% url 'project:project_details' pk=project.pk %}">{{ project.name }}</a></td>
           {% if is_admin %}
             <td>{{ project.organization.get_full_name }}</td>
           {% endif %}
@@ -65,4 +65,3 @@
 </div>
 {% endblock %}
 
-{% url 'project:project_detail' pk=project.pk %}
