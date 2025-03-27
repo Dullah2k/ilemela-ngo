@@ -9,20 +9,23 @@ from .forms import ProjectForm
 
 @login_required
 def project_create(request):
-	if not request.user.is_organization:  # Assuming `is_organization` is a User attribute
-		return redirect('permission_denied')
-	
 	if request.method == 'POST':
 		form = ProjectForm(request.POST)
 		if form.is_valid():
 			project = form.save(commit=False)
 			project.organization = request.user
 			project.save()
-			return redirect('project:project_details', pk=project.pk)
+			return redirect('project:project_list')
 	else:
 		form = ProjectForm()
+
+	context = {
+		'form': form,
+		'title': _('Create Project'),
+		'section':'project',
+	}
 	
-	return render(request, 'project/create.html', {'form': form, 'title': _('Create Project')})
+	return render(request, 'project/create.html', context)
 
 
 
