@@ -42,7 +42,7 @@ def report_create(request, project_id):
                         instance=report
                     )
                     saved_formset.save()
-                    return redirect('reports:report_list', pk=report.pk)
+                    return redirect('reports:report_list')
             except Exception as e:
                 form.add_error(None, str(e))
         else:
