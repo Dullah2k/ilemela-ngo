@@ -27,8 +27,6 @@ def project_create(request):
 	
 	return render(request, 'project/create.html', context)
 
-
-
 @login_required
 def project_list(request):
 	# For admins: Show all projects with filters
@@ -47,7 +45,8 @@ def project_list(request):
 
 	return render(request, 'project/list.html', {
 		'filter': project_filter,
-		'is_admin': request.user.is_staff
+		'is_admin': request.user.is_staff,
+		'section':'project',
 	})
 
 @login_required
@@ -58,7 +57,7 @@ def project_details(request, pk):
 	if not (request.user.is_staff or project.organization == request.user):
 		return redirect('permission_denied')
 	
-	return render(request, 'project/detail.html', {'project': project})
+	return render(request, 'project/detail.html', {'project': project, 'section':'project',})
 
 @login_required
 def project_edit(request, pk):
@@ -76,5 +75,5 @@ def project_edit(request, pk):
 	else:
 		form = ProjectForm(instance=project)
 	
-	return render(request, 'project/edit.html', {'form': form, 'title': _('Edit Project')})
+	return render(request, 'project/edit.html', {'form': form, 'title': _('Edit Project'), 'section':'project',})
 
