@@ -1,0 +1,104 @@
+{% load i18n %}
+
+<style>
+	.pagination {
+		margin: 2rem 0;
+		display: flex;
+		justify-content: center;
+	}
+
+	.page-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		gap: 0.5rem;
+	}
+
+	.page-item {
+		padding: 0.5rem 1rem;
+		border: 1px solid #dee2e6;
+		border-radius: 4px;
+		transition: all 0.3s ease;
+	}
+
+	.page-item:hover:not(.disabled) {
+		background: #f8f9fa;
+	}
+
+	.page-item.active {
+		background: #007bff;
+		border-color: #007bff;
+		color: white;
+	}
+
+	.page-link {
+		text-decoration: none;
+		color: inherit;
+	}
+
+	.disabled {
+		opacity: 0.6;
+		pointer-events: none;
+	}
+</style>
+
+{% if page.has_other_pages %}
+<nav class="pagination" aria-label="{% trans 'Pagination' %}">
+	<ul class="page-list">
+		{% if page.has_previous %}
+			<li class="page-item">
+				<a class="page-link" 
+				   href="?{{ request.GET.urlencode }}&page={{ page.previous_page_number }}"
+				   aria-label="{% trans 'Previous' %}">
+					&laquo;
+				</a>
+			</li>
+		{% else %}
+			<li class="page-item disabled">
+				<span class="page-link">&laquo;</span>
+			</li>
+		{% endif %}
+
+		{% for num in page.paginator.page_range %}
+			{% if page.number == num %}
+				<li class="page-item active" aria-current="page">
+					<span class="page-link">{{ num }}</span>
+				</li>
+			{% elif num > page.number|add:'-3' and num < page.number|add:'3' %}
+				<li class="page-item">
+					<a class="page-link" 
+					   href="?{{ request.GET.urlencode }}&page={{ num }}">
+						{{ num }}
+					</a>
+				</li>
+			{% elif num == 1 or num == page.paginator.num_pages %}
+				<li class="page-item">
+					<a class="page-link" 
+					   href="?{{ request.GET.urlencode }}&page={{ num }}">
+						{{ num }}
+					</a>
+				</li>
+			{% elif num == page.number|add:'-3' or num == page.number|add:'3' %}
+				<li class="page-item disabled">
+					<span class="page-link">&hellip;</span>
+				</li>
+			{% endif %}
+		{% endfor %}
+
+		{% if page.has_next %}
+			<li class="page-item">
+				<a class="page-link" 
+				   href="?{{ request.GET.urlencode }}&page={{ page.next_page_number }}"
+				   aria-label="{% trans 'Next' %}">
+					&raquo;
+				</a>
+			</li>
+		{% else %}
+			<li class="page-item disabled">
+				<span class="page-link">&raquo;</span>
+			</li>
+		{% endif %}
+	</ul>
+</nav>
+{% endif %}

@@ -218,14 +218,14 @@
 
         {% if user.is_staff %}
         <li {% if section == 'report' %} class="active-link" {% endif %}>
-          <a href="#"  class="sidenav-link">
+          <a href="{% url 'report:report_list' %}"  class="sidenav-link">
             <i class="bi bi-file-earmark-arrow-up-fill"></i>
             <p>Reports</p>
           </a>
         </li>
         {% else %}
         <li {% if section == 'report' %} class="active-link" {% endif %}>
-          <a href="#" class="sidenav-link">
+          <a href="{% url 'report:report_list' %}" class="sidenav-link">
             <i class="bi bi-file-earmark-bar-graph-fill"></i>
             <p>My Reports</p>
           </a>
