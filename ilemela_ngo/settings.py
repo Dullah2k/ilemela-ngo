@@ -40,7 +40,7 @@ INSTALLED_APPS = [
 	'django.contrib.staticfiles',
 	'organization.apps.OrganizationConfig',
 	'project.apps.ProjectConfig',
-	'report.apps.ReportConfig',
+	'reports.apps.ReportsConfig',
 	'django_filters',
 ]
 
