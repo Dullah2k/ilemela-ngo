@@ -76,13 +76,3 @@ class ReportPhoto(models.Model):
     ]
   )
   caption = models.CharField(max_length=200, blank=True)
-
-  def clean(self):
-    # Ensure minimum 5 photos per report
-    if self.report.photos.count() >= 4:  # Current photo will make 5
-      return
-    if self.report.photos.count() < 4 and not self.pk:
-      raise ValidationError(
-        _("At least 5 photos are required for each report")
-      )
-    

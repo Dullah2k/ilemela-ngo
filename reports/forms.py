@@ -1,5 +1,6 @@
 from django import forms
 from .models import Report, ReportPhoto
+from django.forms import inlineformset_factory
 
 class ReportForm(forms.ModelForm):
     class Meta:
@@ -28,6 +29,12 @@ class PhotoForm(forms.ModelForm):
         model = ReportPhoto
         fields = ['photo', 'caption']
 
-PhotoFormSet = forms.inlineformset_factory(
-    Report, ReportPhoto, form=PhotoForm, extra=5, min_num=5, validate_min=True
+PhotoFormSet = inlineformset_factory(
+  Report,
+  ReportPhoto,
+  fields=('photo', 'caption'),
+  extra=5,
+  min_num=5,
+  validate_min=True,
+  can_delete=False
 )

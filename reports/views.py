@@ -1,35 +1,57 @@
+from django.db import transaction
 from django.contrib.auth.decorators import login_required
+from django.forms import ValidationError
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
 from project.models import Project
 from .models import Report
 from .forms import ReportForm, PhotoFormSet
 from .filters import ReportFilter
+from .models import ReportPhoto
 
 @login_required
 def report_create(request, project_id):
     project = get_object_or_404(Project, pk=project_id, organization=request.user)
     
     if request.method == 'POST':
-        # Pass project to the form
         form = ReportForm(request.POST, user=request.user, project=project)
-        formset = PhotoFormSet(request.POST, request.FILES)
-        
-        if form.is_valid() and formset.is_valid():
+        form_valid = form.is_valid()
+        report = None
+
+        if form_valid:
             report = form.save(commit=False)
-            # Already set via form, but ensure it's there
-            report.project = project  
+            report.project = project
             report.status = 'SUBM' if request.user.is_staff else 'DRAFT'
-            report.save()
-            
-            formset.instance = report
-            formset.save()
-            
-            return redirect('project:report_detail', pk=report.pk)
+
+        # Always create formset with report instance
+        formset = PhotoFormSet(
+            request.POST,
+            request.FILES,
+            instance=report or Report(project=project)
+        )
+
+        if form_valid and formset.is_valid():
+            try:
+                with transaction.atomic():
+                    # Save report first
+                    report.save()
+                    # Save formset with proper instance
+                    saved_formset = PhotoFormSet(
+                        request.POST,
+                        request.FILES,
+                        instance=report
+                    )
+                    saved_formset.save()
+                    return redirect('reports:report_list', pk=report.pk)
+            except Exception as e:
+                form.add_error(None, str(e))
+        else:
+            # Handle invalid form/formset
+            pass
     else:
-        # Initialize form with project for GET requests
+        # GET request
         form = ReportForm(user=request.user, project=project)
-        formset = PhotoFormSet()
+        formset = PhotoFormSet(instance=Report(project=project))
 
     context = {
         'form': form,
@@ -44,6 +66,7 @@ def report_list(request):
     if request.user.is_staff:
         reports = Report.objects.all().select_related('project')
     else:
+        # Include all reports for organization's projects regardless of status
         reports = Report.objects.filter(
             project__organization=request.user
         ).select_related('project')

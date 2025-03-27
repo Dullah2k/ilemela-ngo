@@ -38,7 +38,17 @@ class ReportFilter(django_filters.FilterSet):
         }
         
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if not self.request.user.is_staff:
-            del self.filters['project__organization']
-            del self.filters['status']
+      super().__init__(*args, **kwargs)
+      if not self.request.user.is_staff:
+          # Remove organization filter but keep status filter
+          del self.filters['project__organization']
+
+    def __init__(self, *args, **kwargs):
+      super().__init__(*args, **kwargs)
+      if not self.request.user.is_staff:
+          del self.filters['project__organization']
+          # Keep status filter but limit choices
+          self.filters['status'].extra['choices'] = [
+              ('DRAFT', 'Draft'),
+              ('SUBM', 'Submitted')
+          ]

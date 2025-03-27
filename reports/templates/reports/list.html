@@ -48,6 +48,12 @@
         display: flex;
         gap: 10px;
     }
+
+    .status-draft { color: #6c757d; }  /* Grey */
+    .status-subm { color: #ffc107; }   /* Yellow */
+    .status-appr { color: #28a745; }   /* Green */
+    .status-rej { color: #dc3545; }    /* Red */
+    
     @media (max-width: 768px) {
         .filter-form {
             grid-template-columns: 1fr;
@@ -57,6 +63,7 @@
             overflow-x: auto;
         }
     }
+
 </style>
 
 <div class="container">
@@ -118,43 +125,43 @@
     </div>
 
     <table class="filter-table">
-        <thead>
-            <tr>
-                {% if is_admin %}<th>{% trans "Organization" %}</th>{% endif %}
-                <th>{% trans "Report Title" %}</th>
-                <th>{% trans "Project" %}</th>
-                <th>{% trans "Quarter/Year" %}</th>
-                <th>{% trans "Status" %}</th>
-                <th>{% trans "Submission Date" %}</th>
-                <th>{% trans "Amount Used" %}</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for report in page_obj %}
-            <tr>
-                {% if is_admin %}
-                <td>{{ report.project.organization }}</td>
-                {% endif %}
-                <td>
-                    <a href="{% url 'project:report_detail' pk=report.pk %}">
-                        {{ report.title }}
-                    </a>
-                </td>
-                <td>{{ report.project.name }}</td>
-                <td>Q{{ report.quarter }} {{ report.year }}</td>
-                <td class="status-{{ report.status|lower }}">
-                    {{ report.get_status_display }}
-                </td>
-                <td>{{ report.submission_date|date:"M d, Y" }}</td>
-                <td>{{ report.amount_used }} TZS</td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="7">{% trans "No reports found" %}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+      <thead>
+          <tr>
+              {% if is_admin %}<th>{% trans "Organization" %}</th>{% endif %}
+              <th>{% trans "Report Title" %}</th>
+              <th>{% trans "Project" %}</th>
+              <th>{% trans "Quarter/Year" %}</th>
+              <th>{% trans "Status" %}</th>
+              <th>{% trans "Submission Date" %}</th>
+              <th>{% trans "Amount Used" %}</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for report in page_obj %}
+          <tr>
+              {% if is_admin %}
+              <td>{{ report.project.organization }}</td>
+              {% endif %}
+              <td>
+                  <a href="{% url 'project:report_detail' pk=report.pk %}">
+                      {{ report.title }}
+                  </a>
+              </td>
+              <td>{{ report.project.name }}</td>
+              <td>Q{{ report.quarter }} {{ report.year }}</td>
+              <td class="status-{{ report.status|lower }}">
+                  {{ report.get_status_display }}
+              </td>
+              <td>{{ report.submission_date|date:"M d, Y" }}</td>
+              <td>{{ report.amount_used }} TZS</td>
+          </tr>
+          {% empty %}
+          <tr>
+              <td colspan="7">{% trans "No reports found" %}</td>
+          </tr>
+          {% endfor %}
+      </tbody>
+  </table>
 
     {% if page_obj.paginator.num_pages > 1 %}
     <div class="pagination">
