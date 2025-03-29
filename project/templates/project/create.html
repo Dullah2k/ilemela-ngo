@@ -3,12 +3,137 @@
 {% load i18n %}
 
 {% block content %}
-<div class="container mt-4">
-  <h2>{{ title }}</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
-  </form>
-</div>
+
+<style>
+  .header h2 {
+    margin: .6rem 0;
+  }
+
+  .project-create-form {
+    background-color: var(--white);
+    border-radius: var(--radius);
+    padding: .6rem;
+  }
+
+  .project-create-form  form {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: .6rem;
+  }
+
+  .project-create-form  form .form-group {
+    margin: .3rem 0;
+  }
+
+  .project-create-form  form input, select {
+    width: 100%;
+    height: 2.5rem;
+  }
+
+  .project-create-form  form textarea {
+    width: 100%;
+  }
+</style>
+
+<section class="project-create">
+  <div class="breadcrumb">
+    <a href="{% url 'user_account:dashboard' %}" class="bread-item">
+      <i class="bi bi-house"></i>
+    </a>
+  
+    <i class="bi bi-chevron-compact-right"></i>
+  
+    <a href="{% url 'project:project_list' %}" class="bread-item">
+      <b>Project List</b>
+    </a>
+  
+    <i class="bi bi-chevron-compact-right"></i>
+  
+    <a href="{% url 'project:project_create' %}" class="bread-item active-link">
+      <b>Start a Project</b>
+    </a>
+  </div>
+
+  <div class="header">
+    <h2>{{ title }}</h2>
+  </div>
+
+  <div class="project-create-form">
+    <form method="post">
+      {% csrf_token %}
+      <div class="project-details">
+        <div class="form-group">
+          <label>{{ form.name.label }}</label>
+          {{ form.name }}
+        </div>
+        
+        <div class="form-group">
+          <label>{{ form.description.label }}</label>
+          {{ form.description }}
+        </div>
+      </div>
+
+      <div class="funds">
+        <div class="form-group">
+          <label>{{ form.status.label }}</label>
+          {{ form.status }}
+        </div>
+        
+        <div class="form-group">
+          <label>{{ form.funding_type.label }}</label>
+          {{ form.funding_type }}
+        </div>
+        
+        <div class="form-group">
+          <label>{{ form.budget.label }}</label>
+          {{ form.budget }}
+        </div>
+
+        <div class="location">
+          <div class="form-group">
+            <label>{{ form.ward.label }}</label>
+            {{ form.ward }}
+          </div>
+          
+          <div class="form-group">
+            <label>{{ form.street.label }}</label>
+            {{ form.street }}
+          </div>
+        </div>
+
+      </div>
+
+      <div class="beneficiaries">
+        <div class="form-group">
+          <label>{{ form.men.label }}</label>
+          {{ form.men }}
+        </div>
+        
+        <div class="form-group">
+          <label>{{ form.women.label }}</label>
+          {{ form.women }}
+        </div>
+        
+        <div class="form-group">
+          <label>{{ form.youth.label }}</label>
+          {{ form.youth }}
+        </div>
+        
+        <div class="timeline">
+          <div class="form-group">
+            <label>{{ form.start_date.label }}</label>
+            {{ form.start_date }}
+          </div>
+          
+          <div class="form-group">
+            <label>{{ form.end_date.label }}</label>
+            {{ form.end_date }}
+          </div>
+        </div>
+
+      </div>
+      <button type="submit" class="btn btn-brand">{% trans "Save" %}</button>
+    </form>
+  </div>
+</section>
 {% endblock %}
