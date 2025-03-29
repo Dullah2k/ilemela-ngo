@@ -73,7 +73,7 @@
   
     <i class="bi bi-chevron-compact-right"></i>
   
-    <a href="{% url 'organization:organization_list' %}" class="bread-item">
+    <a href="{% url 'organization:organization_detail' id=request.user.organizationprofile.id %}" class="bread-item">
       <b>Organization Profile</b>
     </a>
   

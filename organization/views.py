@@ -88,6 +88,6 @@ def organization_edit(request, id=None):
   return render(request, 'organization/edit.html', {
     'user_form': user_form,
     'profile_form': profile_form,
-    'organization': 'organization',
+    'section': 'organization',
     'editing_other': id and request.user.is_staff
   })
