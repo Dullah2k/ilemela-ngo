@@ -3,38 +3,95 @@
 {% load i18n %}
 
 {% block content %}
-<div class="container mt-4">
-  <h2>
-    {% if is_admin %}
-      {% trans "All Projects" %}
-    {% else %}
-      {% trans "Your Projects" %}
-    {% endif %}
-  </h2>
+
+<style>
+  .project-list .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: .6rem 0;
+  }
+
+
+  .project-list h2 {
+    margin: .35em
+  }
+
+  .project-filter {
+    background-color: var(--white);
+    border-radius: var(--radius);
+    padding: .6rem;
+  }
+
+  .filter-form {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    align-items: center;
+  }
+</style>
+
+
+<section class="project-list">
+  <div class="breadcrumb">
+    <a href="{% url 'user_account:dashboard' %}" class="bread-item">
+      <i class="bi bi-house"></i>
+    </a>
+  
+    <i class="bi bi-chevron-compact-right"></i>
+  
+    <a href="{% url 'project:project_list' %}" class="bread-item active-link">
+      <b>Project List</b>
+    </a>
+  </div>
+
+  <div class="header">
+    <h2>
+      {% if is_admin %}
+        {% trans "All Projects" %}
+      {% else %}
+        {% trans "Your Projects" %}
+      {% endif %}
+    </h2>
+
+    <a href="{% url 'project:project_create' %}" class="btn btn-brand">
+      <i class="bi bi-plus"></i>
+      Start Project
+    </a>
+
+  </div>
   
   <!-- Filter Form -->
-  <form method="get" class="mb-4">
-    {% if is_admin %}
-      <div class="row">
-        <div class="col-md-3">{{ filter.form.organization }}</div>
-        <div class="col-md-3">{{ filter.form.ward }}</div>
-        <div class="col-md-3">{{ filter.form.status }}</div>
-        <div class="col-md-3">{{ filter.form.funding_type }}</div>
-      </div>
-    {% else %}
-      <div class="row">
-        <div class="col-md-4">{{ filter.form.ward }}</div>
-        <div class="col-md-4">{{ filter.form.status }}</div>
-        <div class="col-md-4">{{ filter.form.funding_type }}</div>
-      </div>
-    {% endif %}
-    <button type="submit" class="btn btn-secondary">{% trans "Filter" %}</button>
-  </form>
-
-	<a href="{% url 'project:project_create' %}">Create Project</a>
+   <div class="project-filter">
+    <form method="get" class="filter-form">
+      {% if is_admin %}
+        <div class="row">
+          <div class="col-md-3">{{ filter.form.organization }}</div>
+          <div class="col-md-3">{{ filter.form.ward }}</div>
+          <div class="col-md-3">{{ filter.form.status }}</div>
+          <div class="col-md-3">{{ filter.form.funding_type }}</div>
+        </div>
+      {% else %}
+        <div class="filter-group">
+          <label for="ward">Ward</label>
+          {{ filter.form.ward }}
+        </div>
+        
+        <div class="filter-group">
+          <label for="ward">Status</label>
+          {{ filter.form.status }}
+        </div>
+        
+        <div class="filter-group">
+          <label for="ward">Funding Type</label>
+          {{ filter.form.funding_type }}
+        </div>
+      {% endif %}
+      <button type="submit" class="btn btn-brand">{% trans "Filter" %}</button>
+    </form>
+   </div>
 
   <!-- Project Table -->
-  <table class="table">
+  <table class="default-table">
     <thead>
       <tr>
         <th>{% trans "Name" %}</th>
@@ -62,6 +119,6 @@
       {% endfor %}
     </tbody>
   </table>
-</div>
+</sec>
 {% endblock %}
 

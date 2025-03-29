@@ -43,33 +43,41 @@
     font-weight: 600;
   }
 
-  .filter-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-
-  .filter-table th,
-  .filter-table td {
-    padding: 12px;
-    border: 1px solid #dee2e6;
-    text-align: left;
-  }
-
-  .filter-table th {
-    background-color: #007bff;
-    color: white;
-  }
-
-  .status-draft { color: #6c757d; }
-  .status-subm { color: #ffc107; }
-  .status-appr { color: #28a745; }
-  .status-rej { color: #dc3545; }
-
   .pagination {
     margin-top: 20px;
     display: flex;
     gap: 10px;
+  }
+
+  .badge {
+    background-color: #f8f9fa;
+    color: var(--black);
+    width: fit-content;
+    padding: .05rem 1rem;
+    margin: auto;
+    border-radius: var(--radius);
+    font-size: small;
+    border: 1px solid var(--gray);
+  }
+
+  .status-draft {
+    background-color: #6c757d;
+    color: #f8f9fa;
+    border: 1px solid #f8f9fa;
+  }
+
+  .status-subm { 
+    background-color: #ffc107;
+    color: var(--white); 
+  }
+  .status-appr { 
+    background-color: #28a745; 
+    color: var(--white); 
+  }
+
+  .status-rej { 
+    background-color: #dc3545;
+    color: var(--white); 
   }
 
   @media (max-width: 768px) {
@@ -159,7 +167,7 @@
       </div>
     </details>
 
-    <table class="filter-table">
+    <table class="default-table">
       <thead>
         <tr>
           {% if is_admin %}<th>{% trans "Organization" %}</th>{% endif %}
@@ -185,8 +193,10 @@
           </td>
           <td>{{ report.project.name }}</td>
           <td>Q{{ report.quarter }} {{ report.year }}</td>
-          <td class="status-{{ report.status|lower }}">
+          <td>
+            <div class="badge status-{{ report.status|lower }}">
               {{ report.get_status_display }}
+            </div>
           </td>
           <td>{{ report.submission_date|date:"M d, Y" }}</td>
           <td>{{ report.amount_used }} TZS</td>
